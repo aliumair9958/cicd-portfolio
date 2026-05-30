@@ -11,7 +11,7 @@ HTML = """
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>CI/CD Portfolio App</title>
+  <title>CI/CD Portfolio — Umair Ali</title>
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Syne:wght@400;800&display=swap" rel="stylesheet"/>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -27,6 +27,8 @@ HTML = """
       --mono: 'JetBrains Mono', monospace;
       --sans: 'Syne', sans-serif;
     }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
       background: var(--bg);
@@ -155,10 +157,7 @@ HTML = """
       transition: all 0.2s;
     }
 
-    .tag:hover {
-      border-color: var(--accent2);
-      color: var(--text);
-    }
+    .tag:hover { border-color: var(--accent2); color: var(--text); }
 
     .tag.active {
       border-color: var(--accent);
@@ -174,14 +173,42 @@ HTML = """
       display: flex;
       justify-content: space-between;
       flex-wrap: wrap;
-      gap: 0.5rem;
+      gap: 0.75rem;
+      align-items: center;
     }
 
-    .footer a {
+    .author {
+      display: flex;
+      flex-direction: column;
+      gap: 0.3rem;
+    }
+
+    .author-name {
+      color: var(--text);
+      font-size: 0.8rem;
+      font-weight: 700;
+    }
+
+    .author-links {
+      display: flex;
+      gap: 1rem;
+    }
+
+    .author-links a {
       color: var(--accent2);
       text-decoration: none;
+      font-size: 0.72rem;
+      transition: color 0.2s;
     }
-    .footer a:hover { text-decoration: underline; }
+
+    .author-links a:hover { color: var(--accent); }
+
+    .footer-right a {
+      color: var(--accent2);
+      text-decoration: none;
+      font-size: 0.72rem;
+    }
+    .footer-right a:hover { text-decoration: underline; }
   </style>
 </head>
 <body>
@@ -191,12 +218,12 @@ HTML = """
     <h1>CI/CD<br/><span>Pipeline</span><br/>Demo</h1>
     <p class="subtitle">
       A portfolio project showcasing end-to-end DevOps:<br/>
-      Flask → Docker → Kubernetes → Jenkins → GitHub Actions
+      Flask → Docker → Jenkins → GitHub Actions → AWS EC2
     </p>
 
     <div class="grid">
       <div class="card">
-        <div class="card-label">Hostname (Pod)</div>
+        <div class="card-label">Hostname</div>
         <div class="card-value highlight">{{ hostname }}</div>
       </div>
       <div class="card">
@@ -217,15 +244,22 @@ HTML = """
       <span class="tag active">Python 3.11</span>
       <span class="tag active">Flask</span>
       <span class="tag active">Docker</span>
-      <span class="tag active">Kubernetes</span>
       <span class="tag active">Jenkins</span>
       <span class="tag active">GitHub Actions</span>
       <span class="tag active">AWS EC2 (Free Tier)</span>
     </div>
 
     <div class="footer">
-      <span>GET /health → returns JSON status</span>
-      <a href="/health">View /health endpoint →</a>
+      <div class="author">
+        <span class="author-name">Umair Ali</span>
+        <div class="author-links">
+          <a href="mailto:aliumair9958@gmail.com">aliumair9958@gmail.com</a>
+          <a href="https://www.linkedin.com/in/iumairali/" target="_blank">LinkedIn →</a>
+        </div>
+      </div>
+      <div class="footer-right">
+        <a href="/health">View /health endpoint →</a>
+      </div>
     </div>
   </div>
 </body>
