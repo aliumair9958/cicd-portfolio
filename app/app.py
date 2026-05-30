@@ -5,6 +5,9 @@ import datetime
 
 app = Flask(__name__)
 
+from prometheus_flask_exporter import PrometheusMetrics
+metrics = PrometheusMetrics(app)
+
 HTML = """
 <!DOCTYPE html>
 <html lang="en">
