@@ -1,0 +1,48 @@
+# k8s/deployment.yaml
+# Kubernetes Deployment — tells K8s how to run our app
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cicd-app
+  labels:
+    app: cicd-app
+spec:
+  replicas: 2                        # Run 2 pods for basic availability
+  selector:
+    matchLabels:
+      app: cicd-app
+  template:
+    metadata:
+      labels:
+        app: cicd-app
+    spec:
+      containers:
+        - name: cicd-app
+          image: YOUR_DOCKERHUB_USERNAME/cicd-portfolio:latest   # ← change this
+          ports:
+            - containerPort: 5000
+          env:
+            - name: APP_ENV
+              value: "production"
+            - name: APP_VERSION
+              value: "1.0.0"
+          # Health checks — Kubernetes will restart the pod if these fail
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 5000
+            initialDelaySeconds: 10
+            periodSeconds: 15
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 5000
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "100m"
+            limits:
+              memory: "128Mi"
+              cpu: "250m"

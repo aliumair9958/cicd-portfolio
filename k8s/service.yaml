@@ -1,0 +1,15 @@
+# k8s/service.yaml
+# Kubernetes Service — exposes our pods to the network
+apiVersion: v1
+kind: Service
+metadata:
+  name: cicd-app-service
+spec:
+  selector:
+    app: cicd-app           # Matches pods with this label
+  ports:
+    - protocol: TCP
+      port: 80              # External port
+      targetPort: 5000      # Container port
+  type: NodePort            # Use NodePort for Minikube (free local K8s)
+                            # Change to LoadBalancer if using AWS EKS

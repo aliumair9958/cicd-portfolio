@@ -1,0 +1,41 @@
+# .github/workflows/ci.yml
+# GitHub Actions — free CI that runs on every push
+# This acts as a lightweight "gate" before Jenkins does the full deploy
+
+name: CI Checks
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main]
+
+jobs:
+  lint-and-test:
+    runs-on: ubuntu-latest   # Free GitHub-hosted runner
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install flask
+
+      - name: Syntax check
+        run: python -m py_compile app/app.py && echo "✅ Syntax OK"
+
+      - name: Check Dockerfile exists
+        run: test -f Dockerfile && echo "✅ Dockerfile found"
+
+      - name: Check K8s manifests exist
+        run: |
+          test -f k8s/deployment.yaml && echo "✅ deployment.yaml found"
+          test -f k8s/service.yaml    && echo "✅ service.yaml found"
+
+      - name: Build Docker image (no push)
+        run: docker build -t cicd-portfolio:test .
