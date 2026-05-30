@@ -1,18 +1,14 @@
-// Jenkinsfile
-// This defines the full CI/CD pipeline in code (Pipeline-as-Code)
-
 pipeline {
-    agent any  // Run on any available Jenkins agent
+    agent any
 
     environment {
-        DOCKERHUB_USER = 'YOUR_DOCKERHUB_USERNAME'   // ← change this
+        DOCKERHUB_USER = 'aliumair9958'
         IMAGE_NAME     = 'cicd-portfolio'
-        IMAGE_TAG      = "${BUILD_NUMBER}"            // Auto-increments each build
+        IMAGE_TAG      = "${BUILD_NUMBER}"
     }
 
     stages {
 
-        // ── 1. CHECKOUT ────────────────────────────────────────────────────
         stage('Checkout') {
             steps {
                 echo '📥 Pulling latest code from GitHub...'
@@ -20,19 +16,16 @@ pipeline {
             }
         }
 
-        // ── 2. TEST ────────────────────────────────────────────────────────
         stage('Test') {
             steps {
                 echo '🧪 Running tests...'
                 sh '''
-                    pip install flask --quiet
-                    python -m py_compile app/app.py
-                    echo "Syntax check passed!"
+                    python3 -m py_compile app/app.py
+                    echo "✅ Syntax check passed!"
                 '''
             }
         }
 
-        // ── 3. BUILD DOCKER IMAGE ──────────────────────────────────────────
         stage('Build Docker Image') {
             steps {
                 echo '🐳 Building Docker image...'
@@ -41,11 +34,9 @@ pipeline {
             }
         }
 
-        // ── 4. PUSH TO DOCKER HUB ─────────────────────────────────────────
         stage('Push to Docker Hub') {
             steps {
                 echo '📤 Pushing image to Docker Hub...'
-                // 'dockerhub-credentials' is set up in Jenkins → Credentials
                 withCredentials([usernamePassword(
                     credentialsId: 'dockerhub-credentials',
                     usernameVariable: 'DOCKER_USER',
@@ -58,34 +49,33 @@ pipeline {
             }
         }
 
-        // ── 5. DEPLOY TO KUBERNETES ────────────────────────────────────────
-        stage('Deploy to Kubernetes') {
+        stage('Deploy') {
             steps {
-                echo '☸️  Deploying to Kubernetes...'
-                sh """
-                    # Update image tag in deployment
-                    sed -i 's|${DOCKERHUB_USER}/${IMAGE_NAME}:latest|${DOCKERHUB_USER}/${IMAGE_NAME}:${IMAGE_TAG}|g' k8s/deployment.yaml
-
-                    kubectl apply -f k8s/deployment.yaml
-                    kubectl apply -f k8s/service.yaml
-
-                    # Wait for rollout to finish
-                    kubectl rollout status deployment/cicd-app --timeout=60s
-                """
+                echo '🚀 Deploying container...'
+                sh '''
+                    docker stop cicd-app || true
+                    docker rm cicd-app || true
+                    docker run -d \
+                        --name cicd-app \
+                        --restart always \
+                        -p 5000:5000 \
+                        -e APP_ENV=production \
+                        -e APP_VERSION=${IMAGE_TAG} \
+                        aliumair9958/cicd-portfolio:latest
+                    echo "✅ App deployed at http://16.171.200.81:5000"
+                '''
             }
         }
     }
 
-    // ── POST-BUILD ACTIONS ─────────────────────────────────────────────────
     post {
         success {
-            echo '✅ Pipeline succeeded! App is live.'
+            echo '✅ Pipeline succeeded! App is live at http://16.171.200.81:5000'
         }
         failure {
             echo '❌ Pipeline failed. Check the logs above.'
         }
         always {
-            // Clean up local Docker images to save disk space
             sh "docker rmi ${DOCKERHUB_USER}/${IMAGE_NAME}:${IMAGE_TAG} || true"
         }
     }
