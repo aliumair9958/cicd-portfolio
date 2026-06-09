@@ -143,8 +143,9 @@ minikube service cicd-app-service   # Opens in browser automatically
 
 ## 👤 Author
 
-**UMAIR ALI** — [![LinkedIn](https://img.shields.io/badge/LinkedIn-0A66C2?logo=linkedin&logoColor=white)](https://www.linkedin.com/in/iumairali/) 
-
+**Umair Ali** — DevOps Engineer
+- GitHub: [github.com/aliumair9958](https://github.com/aliumair9958)
+- LinkedIn: [linkedin.com/in/iumairali](https://linkedin.com/in/iumairali)
 ---
 
 *This project was built to demonstrate end-to-end DevOps practices using 100% free tools and services.*
