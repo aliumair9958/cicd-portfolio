@@ -139,11 +139,7 @@ minikube service cicd-app-service   # Opens in browser automatically
 
 ---
 
-## 📸 Screenshots
 
-> *(Add screenshots of your Jenkins pipeline, the running app, and `kubectl get pods` output here — recruiters love this!)*
-
----
 
 ## 👤 Author
 
