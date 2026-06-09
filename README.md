@@ -143,7 +143,7 @@ minikube service cicd-app-service   # Opens in browser automatically
 
 ## 👤 Author
 
-**Your Name** — [LinkedIn](https://linkedin.com/in/yourprofile) · [GitHub](https://github.com/YOUR_USERNAME)
+**UMAIR ALI** — [LinkedIn](www.linkedin.com/in/iumairali) 
 
 ---
 
