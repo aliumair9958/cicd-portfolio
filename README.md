@@ -2,7 +2,7 @@
 
 > **End-to-end DevOps pipeline** built with Python · Flask · Docker · Kubernetes · Jenkins · GitHub Actions · AWS EC2 (Free Tier)
 
-![CI](https://github.com/YOUR_USERNAME/cicd-portfolio/actions/workflows/ci.yml/badge.svg)
+![CI](https://github.com/aliumair9958/cicd-portfolio/actions/workflows/ci.yml/badge.svg)
 ![Docker](https://img.shields.io/badge/Docker-ready-2496ED?logo=docker&logoColor=white)
 ![Kubernetes](https://img.shields.io/badge/Kubernetes-deployed-326CE5?logo=kubernetes&logoColor=white)
 ![Jenkins](https://img.shields.io/badge/Jenkins-pipeline-D24939?logo=jenkins&logoColor=white)
